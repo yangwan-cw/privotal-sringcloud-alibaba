@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  olecode-gateway-service:
+    container_name: olecode-gateway-service
+    build:
+      context: olecode_gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8401"
+    networks:
+      - olecode_network
+
+
+  olecode-user-service:
+    build:
+      context: olecode_user_service
+      dockerfile: Dockerfile
+    ports:
+      - "8102:8102"
+    networks:
+      - olecode_network
+    depends_on:
+      - olecode-gateway-service
+    container_name: olecode-user-service
+
+  olecode-question-service:
+    build:
+      context: olecode_question_service
+      dockerfile: Dockerfile
+    ports:
+      - "8183:8183"
+    networks:
+      - olecode_network
+    depends_on:
+      - olecode-user-service
+    container_name: olecode-question-service
+
+  olecode-backend-judge-service:
+    build:
+      context: olecode_codeJudge_service
+      dockerfile: Dockerfile
+    ports:
+      - "8184:8184"
+    networks:
+      - olecode_network
+    depends_on:
+      - olecode-user-service
+      - olecode-gateway-service
+    container_name: olecode-judge-service
+
+networks:
+  olecode_network:
