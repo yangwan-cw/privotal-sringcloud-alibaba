@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# 查看所有模块的依赖树
+echo "生成所有模块的依赖树..."
+
+mvn  -f ../pom.xml dependency:tree
+
+if [ $? -eq 0 ]; then
+    echo "依赖树生成成功!"
+else
+    echo "生成依赖树失败!"
+    exit 1
+fi
