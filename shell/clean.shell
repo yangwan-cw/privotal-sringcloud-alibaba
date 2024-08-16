@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# 清理构建生成的文件
+echo "清理构建生成的文件..."
+
+mvn -f ../pom.xml clean
+
+if [ $? -eq 0 ]; then
+    echo "清理成功!"
+else
+    echo "清理失败!"
+    exit 1
+fi
